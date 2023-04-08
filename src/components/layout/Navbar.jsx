@@ -82,7 +82,7 @@ export default function Navbar() {
           </Flex>
         </Show>
       </Flex>
-      <Drawer placement='left' onClose={onClose} isOpen={isOpen}>
+      <Drawer placement='top' onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
