@@ -1,13 +1,14 @@
 import { Box, Button, Flex, Heading, Image, Text } from '@chakra-ui/react';
-import { BsFillPlayFill } from 'react-icons/bs';
+import { BsFillPlayFill, BsInfoCircleFill } from 'react-icons/bs';
 import React from 'react';
 // API
 import axios from 'axios';
 
 export default function Home() {
   const [anime, setAnime] = React.useState(null);
-  const url = 'https://api.consumet.org/meta/anilist/trending';
+
   React.useEffect(() => {
+    const url = 'https://api.consumet.org/meta/anilist/trending';
     const fetchedAnime = async () => {
       const data = await fetch(url);
       const anime = await data.json();
@@ -26,17 +27,17 @@ export default function Home() {
         <Flex
           direction={'column'}
           gap={'1rem'}
-          w={{ base: '90%', md: '50%', xl: '50%' }}
+          w={{ base: '90%', md: '50%', xl: '30%' }}
           height={{ base: '85%', md: '75%' }}
           justify={'flex-end'}
-          mx={{ base: 'auto', md: '5rem', xl: '12rem' }}
+          mx={{ base: 'auto', md: '5rem', xl: '18rem' }}
           color={'white'}
         >
           <Heading as='h1' size='4xl'>
             {anime?.title?.english || anime?.title?.romaji}
           </Heading>
           <Text as='h4' size='xl'>
-            {anime?.description}
+            {anime?.description.substring(0, 250) + '...'}
           </Text>
           <Flex direction={{ base: 'column', md: 'row' }} gap={'1rem'}>
             <Button
@@ -58,7 +59,7 @@ export default function Home() {
               w={{ base: '100%', md: '50%', lg: '30%' }}
             >
               <Flex align={'center'} gap={'.5rem'}>
-                <BsFillPlayFill size={28} />
+                <BsInfoCircleFill size={24} />
                 <Text>Learn more</Text>
               </Flex>
             </Button>

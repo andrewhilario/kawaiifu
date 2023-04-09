@@ -30,6 +30,13 @@ import React from 'react';
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const scrollOnTrending = () => {
+    const element = document.getElementById('trending');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
   return (
     <Box w='100%' bg={'cyan.400'} padding={'1rem'}>
       <Flex
@@ -46,10 +53,10 @@ export default function Navbar() {
               <Link to={'/'}>Home</Link>
             </Text>
             <Text color={'white'}>
-              <Link to={'/about'}>Popular Anime</Link>
+              <Link to={'/popular'}>Popular Anime</Link>
             </Text>
-            <Text color={'white'}>
-              <Link to={'/about'}>Trending Anime</Link>
+            <Text color={'white'} onClick={scrollOnTrending}>
+              <Link to={''}>Trending Anime</Link>
             </Text>
             <Text color={'white'}>
               <Link to={'/about'}>About</Link>
@@ -121,7 +128,7 @@ export default function Navbar() {
                   bg: 'cyan.600',
                 }}
               >
-                <Link to={'/about'}>Popular Anime</Link>
+                <Link href={'#popular'}>Popular Anime</Link>
               </Text>
               <Text
                 w={'100%'}
@@ -132,8 +139,9 @@ export default function Navbar() {
                   color: 'white',
                   bg: 'cyan.600',
                 }}
+                onClick={scrollOnTrending}
               >
-                <Link to={'/about'}>Trending Anime</Link>
+                <Link href={'#trending'}>Trending Anime</Link>
               </Text>
               <Text
                 w={'100%'}
