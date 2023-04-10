@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import Navbar from '../layout/Navbar';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { format, formatDistanceToNow } from 'date-fns';
 
 export default function Watch() {
@@ -90,7 +90,13 @@ export default function Watch() {
                   {animeInfo?.description.slice(0, 500) + '...'}
                 </Text>
                 <Flex gap={'1rem'}>
-                  <Button colorScheme='blue'>Watch</Button>
+                  <Button
+                    as={Link}
+                    to={`/watch/${animeInfo.id}`}
+                    colorScheme='blue'
+                  >
+                    Watch
+                  </Button>
                   <Button colorScheme='blue'>Add to List</Button>
                 </Flex>
               </Box>

@@ -16,7 +16,7 @@ const theme = extendTheme({
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter forceRefresh={true}>
       <ChakraProvider theme={theme}>
         <App />
       </ChakraProvider>

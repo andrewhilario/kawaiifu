@@ -1,5 +1,7 @@
 import {
   Box,
+  Center,
+  CircularProgress,
   Flex,
   Grid,
   GridItem,
@@ -7,25 +9,21 @@ import {
   Image,
   Text,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useTrending } from '../../hooks/useTrending';
 
 export default function TrendingAnime() {
   const [anime, setAnime] = React.useState(null);
+  const { trending, loading } = useTrending();
 
-  const url = 'https://api.consumet.org/meta/anilist/trending';
+  useEffect(() => {
+    setAnime(trending);
+    // console.log(anime, 'trending anime');
+  });
+  // React.useEffect(() => {
 
-  React.useEffect(() => {
-    const fetchedAnime = async () => {
-      const data = await fetch(url);
-      const animeData = await data.json();
-      const animeList = animeData.results;
-
-      setAnime(animeList);
-      console.log(anime);
-    };
-    fetchedAnime();
-  }, []);
+  // }, []);
 
   return (
     <Box w='100%' id='trending'>
