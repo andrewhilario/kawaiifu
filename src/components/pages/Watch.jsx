@@ -61,7 +61,6 @@ export default function Watch() {
           <iframe
             title='anime'
             src={watch?.headers?.Referer}
-            width={'50%'}
             allowFullScreen
           ></iframe>
         </AspectRatio>
@@ -76,7 +75,11 @@ export default function Watch() {
           </Text>
         </Box>
         <Grid
-          templateColumns={'repeat(5, 1fr)'}
+          templateColumns={{
+            base: 'repeat(2, 1fr)',
+            md: 'repeat(4, 1fr)',
+            lg: 'repeat(5, 1fr)',
+          }}
           gap={5}
           w={{
             base: '100%',

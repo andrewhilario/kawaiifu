@@ -58,8 +58,6 @@ export default function WatchPerEp() {
           <iframe
             title='anime'
             src={episodeId?.headers?.Referer}
-            width={'100%'}
-            height={'100%'}
             allowFullScreen
           ></iframe>
         </AspectRatio>
