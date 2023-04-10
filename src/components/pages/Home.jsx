@@ -1,4 +1,12 @@
-import { Box, Button, Flex, Heading, Image, Text } from '@chakra-ui/react';
+import {
+  AspectRatio,
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Image,
+  Text,
+} from '@chakra-ui/react';
 import { BsFillPlayFill, BsInfoCircleFill } from 'react-icons/bs';
 import React from 'react';
 // API
@@ -6,9 +14,11 @@ import axios from 'axios';
 
 export default function Home() {
   const [anime, setAnime] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    const url = 'https://api.consumet.org/meta/anilist/trending';
+    setIsLoading(true);
+    const url = 'https://api.consumet.org/meta/anilist/popular';
     const fetchedAnime = async () => {
       const data = await fetch(url);
       const anime = await data.json();
@@ -16,14 +26,25 @@ export default function Home() {
       const randomAnime =
         animeList[Math.floor(Math.random() * animeList.length)];
       setAnime(randomAnime);
+      setIsLoading(false);
+      // console.log(randomAnime);
     };
     fetchedAnime();
   }, []);
   // console.log(anime);
 
   return (
-    <Box w='100%' height={'90vh'}>
-      <Box w='100%' height={'100%'} position={'relative'}>
+    <Box
+      w='100%'
+      height={'90vh'}
+      transition={isLoading ? 'all .5 ease-in' : 'none'}
+    >
+      <Box
+        w='100%'
+        height={'100%'}
+        position={'relative'}
+        transition={isLoading ? 'all .5 ease-in' : 'none'}
+      >
         <Flex
           direction={'column'}
           gap={'1rem'}
@@ -75,7 +96,7 @@ export default function Home() {
           <Box
             w='100%'
             height={'100%'}
-            bg={'blackAlpha.500'}
+            bg={'blackAlpha.700'}
             position={'absolute'}
             top={'0'}
           />

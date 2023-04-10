@@ -70,7 +70,11 @@ export default function Navbar() {
             >
               <Link to={'/login'}>Login</Link>
             </Button>
-            <Button bg={'cyan.700'} color={'white'}>
+            <Button
+              bg={'cyan.700'}
+              color={'white'}
+              _hover={{ background: 'cyan.900' }}
+            >
               <Link to={'/register'}>Register</Link>
             </Button>
           </Flex>

@@ -8,6 +8,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function PopularAnime() {
   const [anime, setAnime] = React.useState(null);
@@ -46,7 +47,13 @@ export default function PopularAnime() {
         >
           {anime?.map((anime) => (
             <GridItem colSpan={{ base: 1, md: 1 }} key={anime.id}>
-              <Box w='100%' h={'100%'} borderRadius={'10px'}>
+              <Box
+                w='100%'
+                h={'100%'}
+                borderRadius={'10px'}
+                as={Link}
+                to={`/info/${anime.id}`}
+              >
                 <Image
                   borderRadius={'5px'}
                   src={anime.image}
