@@ -4,6 +4,7 @@ import {
   AspectRatio,
   Box,
   Button,
+  Flex,
   Grid,
   Heading,
   Text,
@@ -35,38 +36,51 @@ export default function WatchPerEp() {
           md: '60%',
         }}
         padding={'2rem'}
+        mx={'auto'}
       >
         <Box
           w={{
             base: '100%',
             md: '60%',
           }}
-          mx={'auto'}
         >
           <Heading fontSize={{ base: '1.5rem', lg: '3xl' }} py={'2rem'}>
             {anime?.title?.english}
           </Heading>
         </Box>
-        <AspectRatio
+        <Flex w='100%' justify={'center'} align={'center'}>
+          <AspectRatio w='100%' h='100%' ratio={16 / 9}>
+            <iframe
+              title='anime'
+              width='100%'
+              src={episodeId?.headers?.Referer}
+              allowFullScreen
+              style={{
+                width: '100%',
+                height: '100vh',
+              }}
+            ></iframe>
+          </AspectRatio>
+        </Flex>
+        <Box
           w={{
             base: '100%',
             md: '60%',
           }}
-          ratio={16 / 9}
-          mx={'auto'}
         >
-          <iframe
-            title='anime'
-            src={episodeId?.headers?.Referer}
-            allowFullScreen
-          ></iframe>
-        </AspectRatio>
-        <Box>
-          <Text w='60%' fontSize={'2rem'} mx={'auto'} py={'2rem'}>
+          <Text fontSize={'2rem'} mx={'auto'} py={'2rem'}>
             Episodes
           </Text>
         </Box>
-        <Grid templateColumns={'repeat(5, 1fr)'} gap={5} w={'60%'} mx={'auto'}>
+        <Grid
+          templateColumns={{
+            base: 'repeat(2, 1fr)',
+            md: 'repeat(4, 1fr)',
+            lg: 'repeat(5, 1fr)',
+          }}
+          gap={5}
+          w={'60%'}
+        >
           {anime?.episodes?.slice(0, visible).map((episode, index) => (
             <Box key={episode.id}>
               <Link w='100%' to={`/watch/${anime.id}/${episode.id}`}>
