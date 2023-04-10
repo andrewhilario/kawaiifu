@@ -11,14 +11,18 @@ import { BsFillPlayFill, BsInfoCircleFill } from 'react-icons/bs';
 import React from 'react';
 // API
 import axios from 'axios';
+import { usePopular } from '../../hooks/usePopular';
+import { Link } from 'react-router-dom';
 
 export default function Home() {
   const [anime, setAnime] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(true);
+  const { popular, loading } = usePopular();
 
   React.useEffect(() => {
     setIsLoading(true);
     const url = 'https://api.consumet.org/meta/anilist/popular';
+    console.log(popular);
     const fetchedAnime = async () => {
       const data = await fetch(url);
       const anime = await data.json();
@@ -65,6 +69,8 @@ export default function Home() {
               colorScheme='teal'
               size='lg'
               w={{ base: '100%', md: '50%', lg: '30%' }}
+              as={Link}
+              to={`/watch/${anime?.id}`}
             >
               <Flex align={'center'} gap={'.5rem'}>
                 <BsFillPlayFill size={28} />

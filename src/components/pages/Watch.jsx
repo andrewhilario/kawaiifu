@@ -38,26 +38,19 @@ export default function Watch() {
           md: '60%',
         }}
         padding={'2rem'}
+        mx={'auto'}
       >
         <Box
           w={{
             base: '100%',
             md: '60%',
           }}
-          mx={'auto'}
         >
           <Heading fontSize={{ base: '1.5rem', lg: '3xl' }} py={'2rem'}>
             {anime?.title?.english}
           </Heading>
         </Box>
-        <AspectRatio
-          w={{
-            base: '100%',
-            md: '60%',
-          }}
-          ratio={16 / 9}
-          mx={'auto'}
-        >
+        <AspectRatio w={'100%'} ratio={16 / 9} mx={'auto'}>
           <iframe
             title='anime'
             src={watch?.headers?.Referer}
@@ -81,11 +74,7 @@ export default function Watch() {
             lg: 'repeat(5, 1fr)',
           }}
           gap={5}
-          w={{
-            base: '100%',
-            md: '60%',
-          }}
-          mx={'auto'}
+          w={'100%'}
         >
           {anime?.episodes?.slice(0, visible).map((episode, index) => (
             <Box key={episode.id}>
