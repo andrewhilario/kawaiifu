@@ -84,6 +84,8 @@ export default function Home() {
               border={'2px solid'}
               borderColor={'white'}
               w={{ base: '100%', md: '50%', lg: '30%' }}
+              as={Link}
+              to={`/info/${anime?.id}`}
             >
               <Flex align={'center'} gap={'.5rem'}>
                 <BsInfoCircleFill size={24} />
