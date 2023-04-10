@@ -57,8 +57,23 @@ export default function Watch() {
             <Heading fontSize={{ base: '1.5rem', lg: '3xl' }} py={'2rem'}>
               {animeInfo?.title.english || animeInfo?.title.romaji}
             </Heading>
-            <Flex w='100%' h='100%' gap={'1rem'} mb={'5rem'}>
-              <Box w='30%' h='30%'>
+            <Flex
+              w='100%'
+              h='100%'
+              direction={{
+                base: 'column',
+                lg: 'row',
+              }}
+              gap={'1rem'}
+              mb={'5rem'}
+            >
+              <Box
+                w={{
+                  base: '100%',
+                  lg: '40%',
+                }}
+                h='30%'
+              >
                 <Image
                   src={animeInfo?.image}
                   w='100%'
@@ -66,13 +81,13 @@ export default function Watch() {
                   objectFit='cover'
                 />
               </Box>
-              <Box w='60%' h='70%'>
+              <Box w={{ base: '100%', lg: '60%' }} h='70%'>
                 <Text
                   fontWeight={'normal'}
-                  fontSize={{ base: 'md', xl: 'lg' }}
+                  fontSize={{ base: 'sm', md: 'md', xl: 'lg' }}
                   mb='1rem'
                 >
-                  {animeInfo?.description.slice(0, 1050) + '...'}
+                  {animeInfo?.description.slice(0, 500) + '...'}
                 </Text>
                 <Flex gap={'1rem'}>
                   <Button colorScheme='blue'>Watch</Button>
@@ -155,15 +170,20 @@ export default function Watch() {
               </Heading>
               <Grid
                 templateColumns={{
-                  base: 'repeat(4, 1fr)',
-                  md: 'repeat(5, 1fr)',
+                  base: 'repeat(3, 1fr)',
+                  md: 'repeat(4, 1fr)',
+                  lg: 'repeat(5, 1fr)',
                 }}
                 gap={6}
               >
                 {animeInfo?.characters.slice(0, visible).map((character) => (
                   <GridItem key={character.id}>
                     <Image
-                      boxSize={'200px'}
+                      boxSize={{
+                        base: '100px',
+                        md: '150px',
+                        lg: '200px',
+                      }}
                       bg={'teal.200'}
                       src={character?.image}
                       objectFit={'cover'}
@@ -174,17 +194,98 @@ export default function Watch() {
                         boxShadow: 'xl',
                       }}
                     />
-                    <Heading as='h4' size='md' mt='1rem'>
+                    <Heading
+                      as='h4'
+                      size={{
+                        base: 'sm',
+                        md: 'md',
+                        lg: 'lg',
+                      }}
+                      mt='1rem'
+                    >
                       {character?.name.full}
                     </Heading>
-                    <Text size='sm'>{character?.role}</Text>
+                    <Text
+                      size={{
+                        base: 'sm',
+                        md: 'md',
+                        lg: 'lg',
+                      }}
+                    >
+                      {character?.role}
+                    </Text>
                   </GridItem>
                 ))}
               </Grid>
               {visible < animeInfo?.characters.length && (
                 <Button
                   onClick={loadMore}
-                  w='20%'
+                  w={{
+                    base: '100%',
+                    md: '50%',
+                    lg: '20%',
+                  }}
+                  mx='auto'
+                  my={'2rem'}
+                  background={'cyan.500'}
+                  color={'white'}
+                  isLoading={isLoading}
+                  _hover={{ background: 'cyan.600' }}
+                >
+                  Load More
+                </Button>
+              )}
+            </Flex>
+            <Flex
+              w='100%'
+              h='100%'
+              gap={'.5rem'}
+              direction={'column'}
+              pb={'2rem'}
+            >
+              <Heading fontSize={{ base: '1.5rem', lg: '5xl' }} py={'1rem'}>
+                Recommendations
+              </Heading>
+              <Grid
+                templateColumns={{
+                  base: 'repeat(2, 1fr)',
+                  md: 'repeat(4, 1fr)',
+                  lg: 'repeat(5, 1fr)',
+                }}
+                gap={6}
+              >
+                {animeInfo?.recommendations.slice(0, visible).map((anime) => (
+                  <GridItem key={anime.id}>
+                    <Image
+                      boxSize={{
+                        base: '250px',
+                        md: '200px',
+                        lg: '300px',
+                      }}
+                      bg={'teal.200'}
+                      borderRadius={'2xl'}
+                      transition={'all 0.2s ease-in-out'}
+                      _hover={{
+                        transform: 'scale(1.05)',
+                        boxShadow: 'xl',
+                      }}
+                      mb={'1rem'}
+                      src={anime?.image}
+                    />
+                    <Heading as='h4' size={{ base: 'sm', md: 'md' }}>
+                      {anime?.title.english}
+                    </Heading>
+                  </GridItem>
+                ))}
+              </Grid>
+              {visible < animeInfo?.recommendations.length && (
+                <Button
+                  onClick={loadMore}
+                  w={{
+                    base: '100%',
+                    md: '50%',
+                    lg: '20%',
+                  }}
                   mx='auto'
                   my={'2rem'}
                   background={'cyan.500'}

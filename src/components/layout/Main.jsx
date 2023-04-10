@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import About from '../pages/About';
 import TrendingAnime from './TrendingAnime';
 import PopularAnime from './PopularAnime';
+import { Button } from '@chakra-ui/react';
 
 export default function Main() {
   return (
@@ -13,6 +14,7 @@ export default function Main() {
       <Home />
       <TrendingAnime />
       <PopularAnime />
+      <Button onClick={() => window.scrollTo(0, 0)}>Scroll to top</Button>
     </Layout>
   );
 }

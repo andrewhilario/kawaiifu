@@ -38,7 +38,14 @@ export default function Navbar() {
     }
   };
   return (
-    <Box w='100%' bg={'cyan.400'} padding={'1rem'}>
+    <Box
+      w='100%'
+      bg={'cyan.400'}
+      padding={'1rem'}
+      position={'sticky'}
+      top={0}
+      zIndex={999}
+    >
       <Flex
         w={{ base: '90%', md: '80%', lg: '75%', xl: '60%' }}
         mx={'auto'}
