@@ -55,10 +55,7 @@ export default function WatchPerEp() {
               width='100%'
               src={episodeId?.headers?.Referer}
               allowFullScreen
-              style={{
-                width: '100%',
-                height: '100vh',
-              }}
+              height={'100%'}
             ></iframe>
           </AspectRatio>
         </Flex>
