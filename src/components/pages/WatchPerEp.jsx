@@ -79,7 +79,7 @@ export default function WatchPerEp() {
             lg: 'repeat(5, 1fr)',
           }}
           gap={5}
-          w={'60%'}
+          w={'100%'}
         >
           {anime?.episodes?.slice(0, visible).map((episode, index) => (
             <Box key={episode.id}>
