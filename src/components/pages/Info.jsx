@@ -20,6 +20,11 @@ export default function Watch() {
 
   const [animeInfo, setAnimeInfo] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [visible, setVisible] = React.useState(10);
+
+  const loadMore = () => {
+    setVisible((prevValue) => prevValue + 5);
+  };
 
   React.useEffect(() => {
     const provider = 'gogoanime' || 'animepahe' || 'animekisa';
@@ -29,7 +34,7 @@ export default function Watch() {
       const animeData = await data.json();
       const animeList = animeData;
       setAnimeInfo(animeList);
-      // console.log(animeList);
+      console.log(animeList);
       setIsLoading(false);
     };
     fetchedAnime();
@@ -75,7 +80,13 @@ export default function Watch() {
                 </Flex>
               </Box>
             </Flex>
-            <Flex w='100%' h='100%' gap={'.5rem'} direction={'column'}>
+            <Flex
+              w='100%'
+              h='100%'
+              gap={'.5rem'}
+              direction={'column'}
+              py={'2rem'}
+            >
               <Heading fontSize={{ base: '1.5rem', lg: '5xl' }} py={'1rem'}>
                 More Info
               </Heading>
@@ -131,6 +142,59 @@ export default function Watch() {
                   </Text>
                 </GridItem>
               </Grid>
+            </Flex>
+            <Flex
+              w='100%'
+              h='100%'
+              gap={'.5rem'}
+              direction={'column'}
+              pb='2rem'
+            >
+              <Heading fontSize={{ base: '1.5rem', lg: '5xl' }} py={'1rem'}>
+                Characters
+              </Heading>
+              <Grid
+                templateColumns={{
+                  base: 'repeat(4, 1fr)',
+                  md: 'repeat(5, 1fr)',
+                }}
+                gap={6}
+              >
+                {animeInfo?.characters.slice(0, visible).map((character) => (
+                  <GridItem key={character.id}>
+                    <Image
+                      boxSize={'200px'}
+                      bg={'teal.200'}
+                      src={character?.image}
+                      objectFit={'cover'}
+                      borderRadius={'2xl'}
+                      transition={'all 0.2s ease-in-out'}
+                      _hover={{
+                        transform: 'scale(1.05)',
+                        boxShadow: 'xl',
+                      }}
+                    />
+                    <Heading as='h4' size='md' mt='1rem'>
+                      {character?.name.full}
+                    </Heading>
+                    <Text size='sm'>{character?.role}</Text>
+                  </GridItem>
+                ))}
+              </Grid>
+              {visible < animeInfo?.characters.length && (
+                <Button
+                  onClick={loadMore}
+                  w='20%'
+                  mx='auto'
+                  my={'2rem'}
+                  background={'cyan.500'}
+                  color={'white'}
+                  isLoading={isLoading}
+                  _hover={{ background: 'cyan.600' }}
+                >
+                  Load More
+                </Button>
+              )}
             </Flex>
           </Flex>
         </Box>
