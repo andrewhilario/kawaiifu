@@ -26,7 +26,7 @@ export default function Watch() {
     setVisible((prevValue) => prevValue + 15);
   };
   React.useEffect(() => {
-    console.log(episodeId);
+    // console.log(episodeId);
   }, []);
 
   return (

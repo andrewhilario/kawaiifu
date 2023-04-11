@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   Drawer,
@@ -17,6 +16,16 @@ import {
   useDisclosure,
   Divider,
   Center,
+  Input,
+  Modal,
+  ModalOverlay,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  CircularProgress,
+  Image,
 } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { FiLogIn } from 'react-icons/fi';
@@ -25,11 +34,23 @@ import {
   AiOutlineGithub,
   AiOutlineUserAdd,
 } from 'react-icons/ai';
+import { FiSearch } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import React from 'react';
+import React, { useState } from 'react';
+import { useAnimeSearch } from '../../hooks/useAnimeSearch';
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: modalOpen,
+    onOpen: modalOnOpen,
+    onClose: modalOnClose,
+  } = useDisclosure();
+
+  // Search
+  const [searchTerm, setSearchTerm] = useState('');
+  const { animeList, loading } = useAnimeSearch(searchTerm);
+  const [visible, setVisible] = React.useState(3);
 
   const scrollOnTrending = () => {
     const element = document.getElementById('trending');
@@ -37,6 +58,16 @@ export default function Navbar() {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
+
+  const handleInputChange = (event) => {
+    setSearchTerm(event.target.value);
+    console.log(animeList);
+  };
+
+  const loadMore = () => {
+    setVisible((prevValue) => prevValue + 5);
+  };
+
   return (
     <Box
       w='100%'
@@ -56,18 +87,34 @@ export default function Navbar() {
         </Heading>
         <Hide below='md'>
           <Flex align={'center'} gap={'1rem'}>
-            <Text color={'white'}>
-              <Link to={'/'}>Home</Link>
-            </Text>
-            <Text color={'white'}>
-              <Link to={'/popular'}>Popular Anime</Link>
-            </Text>
-            <Text color={'white'} onClick={scrollOnTrending}>
-              <Link to={''}>Trending Anime</Link>
-            </Text>
-            <Text color={'white'}>
-              <Link to={'/about'}>About</Link>
-            </Text>
+            <Flex
+              w='100%'
+              align={'center'}
+              gap={'1rem'}
+              id='navlinks'
+              transition={'all .25s ease-in-out'}
+            >
+              <Text color={'white'}>
+                <Link to={'/'}>Home</Link>
+              </Text>
+              <Text color={'white'}>
+                <Link to={'/popular'}>Popular Anime</Link>
+              </Text>
+              <Text color={'white'} onClick={scrollOnTrending}>
+                <Link to={''}>Trending Anime</Link>
+              </Text>
+              <Text color={'white'}>
+                <Link to={'/about'}>About</Link>
+              </Text>
+            </Flex>
+            <Button
+              variant={'ghost'}
+              color={'white'}
+              colorScheme='white'
+              onClick={modalOnOpen}
+            >
+              <FiSearch size={24} />
+            </Button>
           </Flex>
           <Flex align={'center'} gap={'1rem'}>
             <Button
@@ -88,6 +135,9 @@ export default function Navbar() {
         </Hide>
         <Show below='md'>
           <Flex align={'center'} gap={'1rem'}>
+            <Button colorScheme='white' onClick={modalOnOpen}>
+              <FiSearch size={24} />
+            </Button>
             <Button
               p={'10px'}
               bg={'transparent'}
@@ -100,6 +150,7 @@ export default function Navbar() {
           </Flex>
         </Show>
       </Flex>
+      {/* Mobile Drawer */}
       <Drawer placement='top' onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
@@ -166,6 +217,7 @@ export default function Navbar() {
               >
                 <Link to={'/about'}>About</Link>
               </Text>
+              <Flex align={'center'} gap={'1rem'}></Flex>
             </Flex>
             <Center height='50px'>
               <Divider orientation='horizontal' />
@@ -199,6 +251,98 @@ export default function Navbar() {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
+      {/* Search Modal */}
+      <Modal
+        isOpen={modalOpen}
+        onClose={modalOnClose}
+        motionPreset='slideInBottom'
+        size={'lg'}
+        scrollBehavior={'inside'}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton />
+          <ModalHeader>
+            <Flex direction={'column'} gap={'1rem'}>
+              <Text fontSize={'2rem'} fontWeight={'xl'}>
+                Search
+              </Text>
+              <form>
+                <Flex align={'center'} gap={'1rem'}>
+                  <Input
+                    placeholder='Search'
+                    type='search'
+                    value={searchTerm}
+                    onChange={handleInputChange}
+                  />
+                  <Button
+                    colorScheme='cyan'
+                    variant='outline'
+                    as={Link}
+                    to={`/search/${searchTerm}`}
+                  >
+                    Search
+                  </Button>
+                </Flex>
+              </form>
+            </Flex>
+          </ModalHeader>
+          <ModalBody py='1rem'>
+            {loading ? (
+              <Center>
+                <Text
+                  fontSize={'1rem'}
+                  py={'1rem'}
+                  color={'gray.300'}
+                  fontWeight={'xl'}
+                >
+                  No Results
+                </Text>
+              </Center>
+            ) : (
+              <Flex direction={'column'} gap={'1rem'}>
+                {animeList?.slice(0, visible).map((anime) => (
+                  <Flex
+                    key={anime?.id}
+                    direction={'flex'}
+                    gap={'1rem'}
+                    p={'1rem'}
+                    bg={'cyan.100'}
+                    borderRadius={'1rem'}
+                    justify={'space-between'}
+                  >
+                    <Image
+                      boxSize={'150px'}
+                      w='40%'
+                      src={anime?.image}
+                      objectFit={'cover'}
+                    />
+                    <Flex direction={'column'} gap={'1rem'} w='55%'>
+                      <Link to={`/info/${anime?.id}`}>
+                        <Text fontSize={'1rem'} fontWeight={'bold'}>
+                          {anime.title.english ||
+                            anime?.title.romaji ||
+                            anime?.title}
+                        </Text>
+                      </Link>
+                      <Text fontSize={'.8rem'} fontWeight={'bold'}>
+                        {anime?.description?.slice(0, 50) + '...' ||
+                          anime?.description ||
+                          'No Description'}
+                      </Text>
+                    </Flex>
+                  </Flex>
+                ))}
+                {visible < animeList?.length && (
+                  <Button bg='cyan.500' color={'white'} onClick={loadMore}>
+                    Load More
+                  </Button>
+                )}
+              </Flex>
+            )}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 }

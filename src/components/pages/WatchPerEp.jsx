@@ -8,6 +8,7 @@ import {
   Grid,
   Heading,
   Text,
+  Link as ChakraLink,
 } from '@chakra-ui/react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAnimeWatch, useEpisodeId } from '../../hooks/useAnimeWatch';
@@ -23,6 +24,9 @@ export default function WatchPerEp() {
   } = useAnimeWatch(params.watchId);
   const [visible, setVisible] = React.useState(20);
   const { episodeId } = useEpisodeId(params.episodeId);
+
+  if (!episodeId) return null;
+
   const loadMore = () => {
     setVisible((prevValue) => prevValue + 15);
   };
@@ -49,13 +53,11 @@ export default function WatchPerEp() {
           </Heading>
         </Box>
         <Flex w='100%' justify={'center'} align={'center'}>
-          <AspectRatio w='100%' h='100%' ratio={16 / 9}>
+          <AspectRatio w='100%' height={'100%'}>
             <iframe
               title='anime'
-              width='100%'
               src={episodeId?.headers?.Referer}
               allowFullScreen
-              height={'100%'}
             ></iframe>
           </AspectRatio>
         </Flex>
@@ -80,7 +82,7 @@ export default function WatchPerEp() {
         >
           {anime?.episodes?.slice(0, visible).map((episode, index) => (
             <Box key={episode.id}>
-              <Link w='100%' to={`/watch/${anime.id}/${episode.id}`}>
+              <ChakraLink w='100%' href={`/watch/${anime.id}/${episode.id}`}>
                 <Text
                   bg={'cyan.400'}
                   color='white'
@@ -89,7 +91,7 @@ export default function WatchPerEp() {
                 >
                   EP {index + 1}
                 </Text>
-              </Link>
+              </ChakraLink>
             </Box>
           ))}
         </Grid>

@@ -9,6 +9,7 @@ import {
   Heading,
   Image,
   Text,
+  Link as ChakraLink,
 } from '@chakra-ui/react';
 import React from 'react';
 import Navbar from '../layout/Navbar';
@@ -262,25 +263,27 @@ export default function Watch() {
               >
                 {animeInfo?.recommendations.slice(0, visible).map((anime) => (
                   <GridItem key={anime.id}>
-                    <Image
-                      boxSize={{
-                        base: '250px',
-                        md: '200px',
-                        lg: '300px',
-                      }}
-                      bg={'teal.200'}
-                      borderRadius={'2xl'}
-                      transition={'all 0.2s ease-in-out'}
-                      _hover={{
-                        transform: 'scale(1.05)',
-                        boxShadow: 'xl',
-                      }}
-                      mb={'1rem'}
-                      src={anime?.image}
-                    />
-                    <Heading as='h4' size={{ base: 'sm', md: 'md' }}>
-                      {anime?.title.english}
-                    </Heading>
+                    <ChakraLink href={`/info/${anime.id}`}>
+                      <Image
+                        boxSize={{
+                          base: '250px',
+                          md: '200px',
+                          lg: '300px',
+                        }}
+                        bg={'teal.200'}
+                        borderRadius={'2xl'}
+                        transition={'all 0.2s ease-in-out'}
+                        _hover={{
+                          transform: 'scale(1.05)',
+                          boxShadow: 'xl',
+                        }}
+                        mb={'1rem'}
+                        src={anime?.image}
+                      />
+                      <Heading as='h4' size={{ base: 'sm', md: 'md' }}>
+                        {anime?.title.english}
+                      </Heading>
+                    </ChakraLink>
                   </GridItem>
                 ))}
               </Grid>

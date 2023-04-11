@@ -9,6 +9,8 @@ import NotFound from './components/pages/NotFound';
 import Watch from './components/pages/Watch';
 import WatchPerEp from './components/pages/WatchPerEp';
 import { useEffect } from 'react';
+import { Helmet } from 'react-helmet';
+import Search from './components/pages/Search';
 
 function App() {
   const location = useLocation();
@@ -19,6 +21,9 @@ function App() {
 
   return (
     <div className='App'>
+      <Helmet>
+        <title>Kawaiifu</title>
+      </Helmet>
       <Routes>
         <Route path='/' element={<Main />} />
         <Route path='/about' element={<About />} />
@@ -27,6 +32,7 @@ function App() {
         <Route path='/info/:id' element={<Info />} />
         <Route path='/watch/:watchId' element={<Watch />} />
         <Route path='/watch/:watchId/:episodeId' element={<WatchPerEp />} />
+        <Route path='/search/:searchQuery' element={<Search />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </div>
